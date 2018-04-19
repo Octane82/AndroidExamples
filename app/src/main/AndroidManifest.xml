@@ -16,6 +16,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".services.ServicesExampleActivity" />
+
+        <service android:name=".services.MyService" />
+        <service android:name=".services.MyRemoteBindService" />
+
+        <service android:name=".services.ServiceJob"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
+
     </application>
 
 </manifest>
