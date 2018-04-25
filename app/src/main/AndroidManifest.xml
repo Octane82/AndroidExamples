@@ -26,6 +26,8 @@
         <activity android:name=".workwithdata.LRUCacheExample" />
         <activity android:name=".workwithdata.SharedPreferencesExample" />
         <activity android:name=".workwithdata.ContentProviderActivity" />
+        <activity android:name=".SimpleNotificationActivity" />
+        <activity android:name=".broadcasts.BroadcastsExampleActivity" />
 
         <service android:name=".services.MyService" />
         <service android:name=".services.MyRemoteBindService" />

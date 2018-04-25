@@ -8,7 +8,7 @@ import android.animation.ValueAnimator;
 public class AnimatorsExample {
 
 
-    public void anumators() {
+    public void animators() {
         ValueAnimator valueAnimator = ValueAnimator.ofFloat(0f, 1f);
         valueAnimator.setDuration(1000);
         valueAnimator.start();
