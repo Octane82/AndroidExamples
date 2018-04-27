@@ -28,6 +28,7 @@
         <activity android:name=".workwithdata.ContentProviderActivity" />
         <activity android:name=".SimpleNotificationActivity" />
         <activity android:name=".broadcasts.BroadcastsExampleActivity" />
+        <activity android:name=".concurrency.LoaderExampleActivity" />
 
         <service android:name=".services.MyService" />
         <service android:name=".services.MyRemoteBindService" />

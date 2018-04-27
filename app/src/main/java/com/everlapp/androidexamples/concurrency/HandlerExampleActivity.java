@@ -1,6 +1,7 @@
 package com.everlapp.androidexamples.concurrency;
 
 import android.os.Bundle;
+import android.os.HandlerThread;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
@@ -16,5 +17,7 @@ public class HandlerExampleActivity extends AppCompatActivity {
         HandlerWorkingClass workingClass = new HandlerWorkingClass(true, textView);
         Thread thread = new Thread(workingClass);
         thread.start();
+
+        // HandlerThread
     }
 }

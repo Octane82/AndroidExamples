@@ -1,6 +1,7 @@
 package com.everlapp.androidexamples.concurrency;
 
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.widget.TextView;
 
@@ -22,6 +23,7 @@ public class HandlerWorkingClass implements Runnable {
     @Override
     public void run() {
         // фоновая работа
+        // Looper.prepare();
 
         // отправить хэндлеру сообщение
         if (dummyResult) {
@@ -34,6 +36,8 @@ public class HandlerWorkingClass implements Runnable {
             message.obj = "An error occurred";
             uiHandler.sendMessage(message);
         }
+
+        // Looper.loop();
     }
 
 

@@ -7,17 +7,24 @@ import android.support.v7.app.AppCompatActivity;
 
 public class AsyncTaskExampleActivity extends AppCompatActivity {
 
+    private AsyncTaskExample asyncTask;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        AsyncTaskExample asyncTask = new AsyncTaskExample();
+        asyncTask = new AsyncTaskExample();
         asyncTask.execute();
     }
 
 
-    private class AsyncTaskExample extends AsyncTask<Void, Integer, Void> {
+    @Override
+    protected void onStop() {
+        super.onStop();
+        asyncTask.cancel(true);
+    }
+
+    private static class AsyncTaskExample extends AsyncTask<Void, Integer, Void> {
 
         int progress_status;
 
@@ -30,6 +37,10 @@ public class AsyncTaskExampleActivity extends AppCompatActivity {
         // Будет выполнен в новом потоке, здесь решаем все тяжелые задачи. Не имеет доступа к UI
         @Override
         protected Void doInBackground(Void... voids) {
+            if (isCancelled()) {
+                // return result
+            }
+
             return null;
         }
 
