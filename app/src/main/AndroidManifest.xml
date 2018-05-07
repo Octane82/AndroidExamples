@@ -16,12 +16,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
+
         <activity android:name=".services.ServicesExampleActivity" />
         <activity android:name=".workwithdata.LRUCacheExample" />
         <activity android:name=".workwithdata.SharedPreferencesExample" />
@@ -29,6 +25,15 @@
         <activity android:name=".SimpleNotificationActivity" />
         <activity android:name=".broadcasts.BroadcastsExampleActivity" />
         <activity android:name=".concurrency.LoaderExampleActivity" />
+
+        <activity android:name=".sensors.SensorsActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
 
         <service android:name=".services.MyService" />
         <service android:name=".services.MyRemoteBindService" />
