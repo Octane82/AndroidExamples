@@ -34,6 +34,7 @@
             </intent-filter>
 
         </activity>
+        <activity android:name=".architectures.mvp.PinCodeActivity" />
 
         <service android:name=".services.MyService" />
         <service android:name=".services.MyRemoteBindService" />
