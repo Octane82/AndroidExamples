@@ -13,6 +13,10 @@ public class PinCodeActivity extends AppCompatActivity implements PinCodeContrac
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //
+        presenter = new PinCodePresenter();
+
+
 
         // Attach view to presenter
         presenter.attachView(this);
