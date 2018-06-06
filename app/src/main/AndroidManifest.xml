@@ -27,14 +27,21 @@
         <activity android:name=".concurrency.LoaderExampleActivity" />
 
         <activity android:name=".sensors.SensorsActivity" >
-            <intent-filter>
+            <!--<intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>-->
 
         </activity>
         <activity android:name=".architectures.mvp.PinCodeActivity" />
+
+        <activity android:name=".archcomponents.room.RoomActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <service android:name=".services.MyService" />
         <service android:name=".services.MyRemoteBindService" />
