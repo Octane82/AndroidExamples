@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.everlapp.androidexamples">
 
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_USER_DICTIONARY" />
     <uses-permission android:name="android.permission.WRITE_USER_DICTIONARY" />
 
@@ -37,6 +38,10 @@
         <activity android:name=".architectures.mvp.PinCodeActivity" />
 
         <activity android:name=".archcomponents.room.RoomActivity" >
+
+        </activity>
+
+        <activity android:name=".archcomponents.lifecycle.LifecycleExampleActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
