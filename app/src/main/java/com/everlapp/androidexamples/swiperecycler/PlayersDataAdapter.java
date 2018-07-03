@@ -1,7 +1,9 @@
 package com.everlapp.androidexamples.swiperecycler;
 
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,13 +17,33 @@ import java.util.List;
  * RecyclerView players adapter
  */
 public class PlayersDataAdapter
-        extends RecyclerView.Adapter<PlayersDataAdapter.PlayerViewHolder> {
+        extends RecyclerView.Adapter<PlayersDataAdapter.PlayerViewHolder>
+        implements OnItemSelected {
+
+    private final String TAG = this.getClass().getSimpleName();
 
     private List<Player> players;
 
+    private boolean isMultiSelectionEnabled = false;
+    //private List<Player> selectedPlayers;
+
+
+    private OnItemSelected itemSelectedListener;
+
+
+    // constr
     public PlayersDataAdapter(List<Player> players) {
         this.players = players;
+        isMultiSelectionEnabled = true;     // todo set from constructor
+
+        itemSelectedListener = this;
+
+        /*selectedPlayers = new ArrayList<>();
+        for (Player player : players) {
+
+        }*/
     }
+
 
 
     @NonNull
@@ -40,6 +62,9 @@ public class PlayersDataAdapter
         holder.club.setText(player.getClub());
         holder.rating.setText(player.getRating().toString());
         holder.age.setText(player.getAge().toString());
+
+        holder.player = player;
+        holder.setChecked(holder.player.isSelected());
     }
 
     @Override
@@ -47,9 +72,31 @@ public class PlayersDataAdapter
         return players.size();
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        if (isMultiSelectionEnabled) {
+            return PlayerViewHolder.MULTI_SELECTION;
+        } else {
+            return PlayerViewHolder.SINGLE_SELECTION;
+        }
+    }
 
 
-    class PlayerViewHolder extends RecyclerView.ViewHolder {
+    @Override
+    public void OnItemSelected(Player player) {
+        Log.d(TAG, "New On item sell: " + player.getName());
+    }
+
+
+    /**
+     * View Holder
+     */
+    class PlayerViewHolder extends RecyclerView.ViewHolder
+                implements View.OnClickListener, View.OnLongClickListener {
+
+        public static final int MULTI_SELECTION = 2;
+        public static final int SINGLE_SELECTION = 1;
+        Player player;
 
         private TextView name;
         private TextView nationality;
@@ -60,6 +107,9 @@ public class PlayersDataAdapter
 
         public PlayerViewHolder(View view) {
             super(view);
+            view.setOnClickListener(this);
+            view.setOnLongClickListener(this);
+
             name = view.findViewById(R.id.name);
             nationality = view.findViewById(R.id.nationality);
             club = view.findViewById(R.id.club);
@@ -67,7 +117,36 @@ public class PlayersDataAdapter
             age = view.findViewById(R.id.age);
         }
 
+        @Override
+        public void onClick(View v) {
+            // TODO Temp onClick -> need OnLongClick !!!
+            if (player.isSelected() && getItemViewType() == MULTI_SELECTION) {
+                setChecked(false);
+            } else {
+                setChecked(true);
+            }
+
+            itemSelectedListener.OnItemSelected(player);
+            Log.d(TAG, "ON ITEM CLick!!!!");
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            return true;
+        }
+
+        public void setChecked(boolean value) {
+            if (value) {
+                name.setBackgroundColor(Color.BLUE);
+            } else {
+                name.setBackgroundColor(Color.RED);
+            }
+            player.setSelected(value);
+        }
+
+
     }
+
 
     public List<Player> getPlayers() {
         return players;

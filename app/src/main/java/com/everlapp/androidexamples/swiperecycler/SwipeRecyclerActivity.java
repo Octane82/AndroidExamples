@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.widget.Toast;
 
 import com.everlapp.androidexamples.R;
 
@@ -18,6 +19,8 @@ import java.util.List;
 
 /**
  * https://github.com/FanFataL/swipe-controller-demo/blob/master/app/src/main/java/pl/fanfatal/swipecontrollerdemo/MainActivity.java
+ *
+ * https://medium.com/@maydin/multi-and-single-selection-in-recyclerview-d29587a7dee2
  */
 public class SwipeRecyclerActivity extends AppCompatActivity {
 
@@ -50,6 +53,8 @@ public class SwipeRecyclerActivity extends AppCompatActivity {
                 player.setClub(st[3]);
                 player.setRating(5);
                 player.setAge(5);
+
+                player.setSelected(false);
                 players.add(player);
             }
 
@@ -88,4 +93,6 @@ public class SwipeRecyclerActivity extends AppCompatActivity {
         });
     }
 
+
+    // Toast.makeText(this, "Selected player: " + player.getName(), Toast.LENGTH_LONG).show();
 }

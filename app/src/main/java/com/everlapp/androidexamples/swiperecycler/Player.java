@@ -8,6 +8,8 @@ public class Player {
     private Integer rating;
     private Integer age;
 
+    private boolean isSelected = false;
+
 
     public String getName() {
         return name;
@@ -47,5 +49,13 @@ public class Player {
 
     public void setAge(Integer age) {
         this.age = age;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
 }
