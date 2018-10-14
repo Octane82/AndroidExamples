@@ -9,6 +9,9 @@ public class MyViewModel extends ViewModel {        // extends AndroidViewModel 
 
     MutableLiveData<String> data;
 
+    MutableLiveData<String> nameData = new MutableLiveData<>();
+
+
     public LiveData<String> getData() {
         if (data == null) {
             data = new MutableLiveData<>();
@@ -21,6 +24,16 @@ public class MyViewModel extends ViewModel {        // extends AndroidViewModel 
     private void loadData() {
         // dataRepository.loadData              Load data Async
         data.postValue("String data");
+    }
+
+
+    public void setNameData(String name) {
+        nameData.postValue(name);
+    }
+
+
+    public MutableLiveData<String> getNameData() {
+        return nameData;
     }
 
     @Override

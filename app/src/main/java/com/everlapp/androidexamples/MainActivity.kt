@@ -4,6 +4,7 @@ import android.animation.AnimatorInflater
 import android.animation.AnimatorSet
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import com.everlapp.androidexamples.registeraccount.ProfileDataSource
 import com.everlapp.androidexamples.registeraccount.RegistrationCallback
 import kotlinx.android.synthetic.main.activity_main.*
@@ -35,5 +36,9 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+
+    fun onClickNext(view: View) {
+
+    }
 
 }
