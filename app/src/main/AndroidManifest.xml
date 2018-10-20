@@ -49,13 +49,16 @@
 
         <activity android:name=".swiperecycler.SwipeRecyclerActivity" />
 
-        <activity android:name=".archcomponents.viewmodel.ViewModelExampleActivity" >
+        <activity android:name=".archcomponents.viewmodel.ViewModelExampleActivity" />
+
+        <activity android:name=".archcomponents.viewmodel.NextActivity" />
+
+        <activity android:name=".cicerone.HostActivityCCR" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".archcomponents.viewmodel.NextActivity" />
 
         <service android:name=".services.MyService" />
         <service android:name=".services.MyRemoteBindService" />

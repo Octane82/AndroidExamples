@@ -77,6 +77,9 @@ dependencies {
     implementation "android.arch.navigation:navigation-fragment:$nav_version" // use -ktx for Kotlin
     implementation "android.arch.navigation:navigation-ui:$nav_version" // use -ktx for Kotlin
 
+    //Cicerone
+    implementation 'ru.terrakok.cicerone:cicerone:4.0.2'
+
     // Timber
     implementation "com.jakewharton.timber:timber:$timberVersion"
 
