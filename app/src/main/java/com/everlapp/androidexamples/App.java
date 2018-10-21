@@ -2,6 +2,8 @@ package com.everlapp.androidexamples;
 
 import android.app.Application;
 
+import com.jakewharton.threetenabp.AndroidThreeTen;
+
 import ru.terrakok.cicerone.Cicerone;
 import ru.terrakok.cicerone.NavigatorHolder;
 import ru.terrakok.cicerone.Router;
@@ -23,6 +25,8 @@ public class App extends Application {
         }
 
         initCicerone();
+
+        AndroidThreeTen.init(this);
     }
 
 

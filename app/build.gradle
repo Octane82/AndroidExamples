@@ -80,6 +80,9 @@ dependencies {
     //Cicerone
     implementation 'ru.terrakok.cicerone:cicerone:4.0.2'
 
+    //
+    implementation 'com.jakewharton.threetenabp:threetenabp:1.1.1'
+
     // Timber
     implementation "com.jakewharton.timber:timber:$timberVersion"
 

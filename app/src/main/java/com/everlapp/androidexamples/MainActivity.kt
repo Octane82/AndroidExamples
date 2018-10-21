@@ -8,6 +8,8 @@ import android.view.View
 import com.everlapp.androidexamples.registeraccount.ProfileDataSource
 import com.everlapp.androidexamples.registeraccount.RegistrationCallback
 import kotlinx.android.synthetic.main.activity_main.*
+import timber.log.Timber
+import java.time.Instant
 
 class MainActivity : AppCompatActivity() {
 
@@ -38,7 +40,7 @@ class MainActivity : AppCompatActivity() {
 
 
     fun onClickNext(view: View) {
-
+        // Timber.d("Now: ${Instant.now()}")
     }
 
 }
