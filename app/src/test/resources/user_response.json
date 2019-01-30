@@ -1,0 +1,11 @@
+{
+  "error":false,
+  "isLogin":false,
+  "is_profile_update":false,
+  "profile_progress":0,
+  "userId":"user_id",
+  "createdTime":"created_time",
+  "createdTimeMillis":1547815398883,
+  "apiVersion":1,
+  "primary_phone":"84951234567"
+}

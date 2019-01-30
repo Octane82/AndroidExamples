@@ -58,6 +58,10 @@
         <activity android:name=".cicerone.HostActivityCCR" >
         </activity>
         <activity android:name=".coroutines.ActivityCoroutineExample" >
+
+        </activity>
+
+        <activity android:name=".rxnetty.RxNettyActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
