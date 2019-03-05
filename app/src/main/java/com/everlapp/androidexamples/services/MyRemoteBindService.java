@@ -27,7 +27,6 @@ public class MyRemoteBindService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-
     }
 
 
