@@ -32,7 +32,7 @@ public class LRUCacheExample extends AppCompatActivity {
         final int cacheSize = maxMemory / 8;
 
         // Init memory cache
-        mMemoryCache = new LruCache<String, Bitmap>(cacheSize){
+        mMemoryCache = new LruCache<String, Bitmap>(cacheSize) {
             @Override
             protected int sizeOf(String key, Bitmap bitmap) {
                 // The cache size will be measured in kilobytes rather than
@@ -40,7 +40,6 @@ public class LRUCacheExample extends AppCompatActivity {
                 return bitmap.getByteCount();
             }
         };
-
     }
 
 

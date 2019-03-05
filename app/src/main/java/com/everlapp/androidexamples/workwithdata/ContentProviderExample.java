@@ -9,14 +9,10 @@ import android.support.annotation.Nullable;
 
 public class ContentProviderExample extends ContentProvider{
 
-
-
-
     @Override
     public boolean onCreate() {
         // Необходимо минимизировать длительные операции
         // Здесь можно вызвать конструктор БД
-
         return false;
     }
 
@@ -64,6 +60,5 @@ public class ContentProviderExample extends ContentProvider{
                       @Nullable String[] selectionArgs) {
         return 0;
     }
-
 
 }

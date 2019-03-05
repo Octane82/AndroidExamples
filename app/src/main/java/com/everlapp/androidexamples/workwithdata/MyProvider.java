@@ -160,7 +160,6 @@ public class MyProvider extends ContentProvider {
         switch (uriMatcher.match(uri)) {
             case URI_CONTACTS:
                 Log.d(LOG_TAG, "URI_CONTACTS");
-
                 break;
             case URI_CONTACTS_ID:
                 String id = uri.getLastPathSegment();

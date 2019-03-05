@@ -1,5 +1,6 @@
 package com.everlapp.androidexamples.utils
 
+import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.Context.INPUT_METHOD_SERVICE
@@ -9,6 +10,7 @@ import android.net.ConnectivityManager
 import android.os.Build
 import android.support.annotation.ColorRes
 import android.support.annotation.LayoutRes
+import android.support.annotation.RequiresPermission
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
@@ -150,6 +152,7 @@ fun Activity.hideKeyboard() {
 /**
  * Check Device is Online
  */
+@RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
 fun Context.isOnline(): Boolean {
     val connectivityManager =
             this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
