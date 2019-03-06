@@ -40,17 +40,16 @@ public class AsyncTaskExampleActivity extends AppCompatActivity {
             if (isCancelled()) {
                 // return result
             }
-
             return null;
         }
 
-        // вызывается в потоке пользовательского интерфейса. Этот метод используется дляотображения любых форм прогресса в пользовательском интерфейсе, пока идут вычисления в фоновом режиме
+        // вызывается в потоке пользовательского интерфейса. Этот метод используется для отображения любых форм прогресса в пользовательском интерфейсе, пока идут вычисления в фоновом режиме
         @Override
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
         }
 
-        // выполняется после doInBackground (несрабатываетвслучае, если AsyncTask былотменен), имеетдоступк UI
+        // выполняется после doInBackground (несрабатывает в случае, если AsyncTask был отменен), имеетдоступк UI
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);

@@ -1,7 +1,6 @@
 package com.everlapp.androidexamples.concurrency;
 
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 import android.widget.TextView;
 
