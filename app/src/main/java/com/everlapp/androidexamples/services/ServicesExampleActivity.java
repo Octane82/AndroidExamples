@@ -14,6 +14,22 @@ import android.support.v7.app.AppCompatActivity;
 import com.everlapp.androidexamples.ICallback;
 import com.everlapp.androidexamples.ITestService;
 
+
+/**
+ * IExample - класс, описание интерфейсов
+ * IExample.Stub - Получатель IPC вызовов
+ * IExample.Proxy - Отправитель вызовов
+ *
+ * Messenger - более высокоуровневый компонент, чем binder. (обертка) - основан на handler
+ * new Messenger(new Handler(){ ... }) - в handler будут приходить все сообщения из другого процесса
+ * Handler() - как бы реализация Stub интерфейса
+ *
+ * Messenger - инкапсулирует в себе механизм Binder и AIDL
+ * IExample => Handler
+ * IExample.Stub => Handler.handleMessage()
+ * IExample.Proxy => Messenger.Send()
+ * Parcelable => Message
+ */
 public class ServicesExampleActivity extends AppCompatActivity {
 
     private MyService mLocalService;
