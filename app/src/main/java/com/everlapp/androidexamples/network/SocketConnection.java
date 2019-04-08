@@ -64,7 +64,7 @@ public class SocketConnection {
     }
 
 
-    public String getSipleUrl(String url) throws IOException {
+    public String getSimpleUrl(String url) throws IOException {
         Request request = new Request.Builder()
                 .url(url)
                 .build();

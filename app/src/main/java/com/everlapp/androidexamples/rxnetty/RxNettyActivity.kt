@@ -7,7 +7,6 @@ import com.google.gson.Gson
 import io.netty.handler.logging.LogLevel
 import io.reactivex.netty.protocol.http.client.HttpClient
 import io.reactivex.netty.protocol.http.server.HttpServer
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -42,7 +41,7 @@ class RxNettyActivity : AppCompatActivity() {
                 // .start { req, resp -> resp.writeString(Observable.just<String>("Hello World!")) }
                 .start { req, resp -> resp.writeString(Observable.just<String>(jsonString)) }
 
-        // Start http client
+        // Start RxNetty http client
         HttpClient.newClient(serverAddress)
                 .enableWireLogging("hello-client", LogLevel.ERROR)
                 .createGet("/hello")

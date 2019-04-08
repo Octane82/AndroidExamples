@@ -31,7 +31,18 @@ public class NetworkLiveData extends LiveData<String> {
     }
 
 
-    private void prepareREceiver(Context context) {
+    @Override
+    protected void onActive() {
+        prepareReceiver(context);
+    }
+
+    @Override
+    protected void onInactive() {
+        context.unregisterReceiver(broadcastReceiver);
+        broadcastReceiver = null;
+    }
+
+    private void prepareReceiver(Context context) {
         IntentFilter filter = new IntentFilter();
         filter.addAction("android.net.wifi.supplicant.CONNECTION_CHANGE");
         filter.addAction("android.net.wifi.STATE_CHANGE");
@@ -49,17 +60,5 @@ public class NetworkLiveData extends LiveData<String> {
             }
         };
         context.registerReceiver(broadcastReceiver, filter);
-    }
-
-
-    @Override
-    protected void onActive() {
-        prepareREceiver(context);
-    }
-
-    @Override
-    protected void onInactive() {
-        context.unregisterReceiver(broadcastReceiver);
-        broadcastReceiver = null;
     }
 }
