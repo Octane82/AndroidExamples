@@ -12,7 +12,7 @@
 
 
     <application
-        android:name=".App"
+        android:name=".archcomponents.paginglibrary.AppController"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -62,6 +62,10 @@
         </activity>
 
         <activity android:name=".rxnetty.RxNettyActivity" >
+
+        </activity>
+
+        <activity android:name=".archcomponents.paginglibrary.FeedActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
