@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.everlapp.androidexamples.R
 import com.google.gson.Gson
-import io.netty.handler.logging.LogLevel
+//import io.netty.handler.logging.LogLevel
 import io.reactivex.netty.protocol.http.client.HttpClient
 import io.reactivex.netty.protocol.http.server.HttpServer
 import kotlinx.coroutines.Dispatchers
@@ -12,7 +12,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import rx.Observable
+//import rx.Observable
 import timber.log.Timber
 import java.net.InetSocketAddress
 import java.nio.charset.Charset
@@ -36,13 +36,15 @@ class RxNettyActivity : AppCompatActivity() {
 
         val jsonString = getStringFromAssetFile("user_response.json")
 
+        //HttpServer.newServer(serverAddress).start{ rec, resp -> } todo
+
         // Start server
-        val server =  HttpServer.newServer(serverAddress)
+        /*val server =  HttpServer.newServer(serverAddress)
                 // .start { req, resp -> resp.writeString(Observable.just<String>("Hello World!")) }
-                .start { req, resp -> resp.writeString(Observable.just<String>(jsonString)) }
+                .start { req, resp -> resp.writeString(Observable.just<String>(jsonString)) }*/
 
         // Start RxNetty http client
-        HttpClient.newClient(serverAddress)
+        /*HttpClient.newClient(serverAddress)
                 .enableWireLogging("hello-client", LogLevel.ERROR)
                 .createGet("/hello")
                 .doOnNext { resp -> kotlin.run {
@@ -51,7 +53,7 @@ class RxNettyActivity : AppCompatActivity() {
                 .flatMap { resp -> resp.content.map { bb -> bb.toString(Charset.defaultCharset()) } }
                 .toBlocking()
                 .forEach { body -> kotlin.run { Timber.d("LOG_Client Message YAY $body") } }
-
+*/
         // OkHttp client
         val httpClient = OkHttpClient()
         val request = Request.Builder()

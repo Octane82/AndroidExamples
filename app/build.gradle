@@ -14,11 +14,12 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.everlapp.androidexamples"
-        minSdkVersion 17
+        minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -132,9 +133,12 @@ dependencies {
     implementation 'com.jakewharton.threetenabp:threetenabp:1.1.1'
 
     // Timber
-    implementation "com.jakewharton.timber:timber:$timberVersion"
+    implementation "com.jakewharton.timber:timber:4.7.1"
 
     // RxNetty
-    implementation 'io.reactivex:rxnetty-http:0.5.3-rc.2'
+    implementation 'io.reactivex:rxnetty-http:0.5.3'
+
+    // RxPermissions
+    implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
 
 }
