@@ -1,6 +1,6 @@
 package com.everlapp.androidexamples.coroutines
 
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import kotlinx.coroutines.*
 import timber.log.Timber
 import kotlin.coroutines.CoroutineContext
@@ -67,7 +67,7 @@ object CoroutinesTest {
 
 
     // Fragment implements CoroutineScope example
-    class MainFragment : Fragment(), CoroutineScope {
+    class MainFragment : androidx.fragment.app.Fragment(), CoroutineScope {
 
         override val coroutineContext: CoroutineContext
             get() = Dispatchers.Main

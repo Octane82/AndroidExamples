@@ -1,10 +1,10 @@
 package com.everlapp.androidexamples.archcomponents.paginglibrary;
 
-import android.databinding.DataBindingUtil;
+import androidx.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.everlapp.androidexamples.R;
 import com.everlapp.androidexamples.databinding.FeedActivityBinding;

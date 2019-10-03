@@ -1,8 +1,8 @@
 package com.everlapp.androidexamples.archcomponents.paginglibrary.datasource;
 
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.paging.PageKeyedDataSource;
-import android.support.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
+import androidx.paging.PageKeyedDataSource;
+import androidx.annotation.NonNull;
 import android.util.Log;
 
 import com.everlapp.androidexamples.archcomponents.paginglibrary.AppController;

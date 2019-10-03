@@ -3,7 +3,7 @@ package com.everlapp.androidexamples
 import android.animation.AnimatorInflater
 import android.animation.AnimatorSet
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.view.View
 import com.everlapp.androidexamples.registeraccount.ProfileDataSource
 import com.everlapp.androidexamples.registeraccount.RegistrationCallback

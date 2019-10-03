@@ -2,8 +2,8 @@ package com.everlapp.androidexamples.archcomponents.paginglibrary.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
-import android.support.v7.util.DiffUtil;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
 
 import com.everlapp.androidexamples.archcomponents.paginglibrary.utils.AppUtils;
 

@@ -9,7 +9,7 @@ import android.hardware.camera2.*
 import android.media.Image
 import android.media.ImageReader
 import android.os.*
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.view.Surface
 import android.view.TextureView
 import android.widget.Toast

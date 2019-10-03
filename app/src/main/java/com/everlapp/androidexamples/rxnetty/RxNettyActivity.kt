@@ -1,7 +1,7 @@
 package com.everlapp.androidexamples.rxnetty
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.everlapp.androidexamples.R
 import com.google.gson.Gson
 //import io.netty.handler.logging.LogLevel

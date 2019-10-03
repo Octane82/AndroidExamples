@@ -3,7 +3,7 @@
     <data class="FeedActivityBinding" />
 
 
-    <android.support.v4.widget.SwipeRefreshLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -16,7 +16,7 @@
 
 
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/list_feed"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
@@ -24,6 +24,6 @@
 
         </LinearLayout>
 
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </layout>

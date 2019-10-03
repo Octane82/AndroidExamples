@@ -2,8 +2,8 @@ package com.everlapp.androidexamples.concurrency;
 
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v4.content.Loader;
+import androidx.annotation.NonNull;
+import androidx.loader.content.Loader;
 
 public class ExampleLoader extends Loader<String> {
 

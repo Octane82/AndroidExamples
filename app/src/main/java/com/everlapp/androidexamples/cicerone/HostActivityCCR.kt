@@ -1,7 +1,7 @@
 package com.everlapp.androidexamples.cicerone
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.everlapp.androidexamples.App
 import com.everlapp.androidexamples.R
 import kotlinx.android.synthetic.main.activity_host_cicerone.*

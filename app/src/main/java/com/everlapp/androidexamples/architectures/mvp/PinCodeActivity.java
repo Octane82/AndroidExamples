@@ -1,8 +1,8 @@
 package com.everlapp.androidexamples.architectures.mvp;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 
 public class PinCodeActivity extends AppCompatActivity implements PinCodeContract.View {

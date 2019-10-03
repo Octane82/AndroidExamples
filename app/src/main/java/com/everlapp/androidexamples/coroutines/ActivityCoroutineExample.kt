@@ -1,7 +1,7 @@
 package com.everlapp.androidexamples.coroutines
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.everlapp.androidexamples.R
 import com.everlapp.androidexamples.coroutines.restapi.RetrofitFactory
 import kotlinx.coroutines.Dispatchers

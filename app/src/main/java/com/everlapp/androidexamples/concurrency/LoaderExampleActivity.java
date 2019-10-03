@@ -4,8 +4,8 @@ package com.everlapp.androidexamples.concurrency;
 import android.app.LoaderManager;
 import android.content.Loader;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class LoaderExampleActivity
         extends AppCompatActivity

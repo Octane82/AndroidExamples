@@ -8,13 +8,13 @@ import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.net.ConnectivityManager
 import android.os.Build
-import android.support.annotation.ColorRes
-import android.support.annotation.LayoutRes
-import android.support.annotation.RequiresPermission
-import android.support.v4.app.ActivityCompat
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentActivity
-import android.support.v7.app.AppCompatActivity
+import androidx.annotation.ColorRes
+import androidx.annotation.LayoutRes
+import androidx.annotation.RequiresPermission
+import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,7 +39,7 @@ inline fun <reified T : Activity> Activity.navigate(key: String = "", extra : St
 /**
  * Find fragment by TAG
  */
-fun FragmentActivity.findFragmentByTagExt(fragmentTag: String) : Boolean =
+fun androidx.fragment.app.FragmentActivity.findFragmentByTagExt(fragmentTag: String) : Boolean =
         this.supportFragmentManager.findFragmentByTag(fragmentTag) != null
 
 /**
@@ -54,8 +54,8 @@ fun ViewGroup.inflate(@LayoutRes layoutId : Int, attachToRoot : Boolean = false)
 /**
  * Add fragment without backStack
  */
-fun FragmentActivity.setFragment(fragment : Fragment,
-                                 containerId : Int = android.R.id.content) =
+fun androidx.fragment.app.FragmentActivity.setFragment(fragment : androidx.fragment.app.Fragment,
+                                                       containerId : Int = android.R.id.content) =
         supportFragmentManager
                 .beginTransaction()
                 .add(containerId, fragment)
@@ -65,9 +65,9 @@ fun FragmentActivity.setFragment(fragment : Fragment,
 /**
  * Add fragment with backStack
  */
-fun FragmentActivity.setFragment(fragment : Fragment,
-                                 containerId : Int = android.R.id.content,
-                                 backStackName: String?) =
+fun androidx.fragment.app.FragmentActivity.setFragment(fragment : androidx.fragment.app.Fragment,
+                                                       containerId : Int = android.R.id.content,
+                                                       backStackName: String?) =
         supportFragmentManager
                 .beginTransaction()
                 .add(containerId, fragment)
@@ -77,8 +77,8 @@ fun FragmentActivity.setFragment(fragment : Fragment,
 /**
  * Replace fragment without backStack
  */
-fun FragmentActivity.replaceFragment(fragment: Fragment ,
-                                     containerId: Int = android.R.id.content) =
+fun androidx.fragment.app.FragmentActivity.replaceFragment(fragment: androidx.fragment.app.Fragment,
+                                                           containerId: Int = android.R.id.content) =
         supportFragmentManager
                 .beginTransaction()
                 .replace(containerId, fragment)
@@ -87,10 +87,10 @@ fun FragmentActivity.replaceFragment(fragment: Fragment ,
 /**
  * Replace fragment with backStack
  */
-fun FragmentActivity.replaceFragment(fragment: Fragment ,
-                                     containerId: Int = android.R.id.content,
-                                     backStackName: String?,
-                                     fragmentTag: String = "") =
+fun androidx.fragment.app.FragmentActivity.replaceFragment(fragment: androidx.fragment.app.Fragment,
+                                                           containerId: Int = android.R.id.content,
+                                                           backStackName: String?,
+                                                           fragmentTag: String = "") =
         supportFragmentManager
                 .beginTransaction()
                 .replace(containerId, fragment, fragmentTag)
@@ -100,10 +100,10 @@ fun FragmentActivity.replaceFragment(fragment: Fragment ,
 /**
  * !!! If BUG with (like - don't exec after onSavedInstanceState())
  */
-fun FragmentActivity.replaceFragmentAllowingStateLoss(fragment: Fragment ,
-                                                      containerId: Int = android.R.id.content,
-                                                      backStackName: String?,
-                                                      fragmentTag: String = "") =
+fun androidx.fragment.app.FragmentActivity.replaceFragmentAllowingStateLoss(fragment: androidx.fragment.app.Fragment,
+                                                                            containerId: Int = android.R.id.content,
+                                                                            backStackName: String?,
+                                                                            fragmentTag: String = "") =
         supportFragmentManager
                 .beginTransaction()
                 .replace(containerId, fragment, fragmentTag)

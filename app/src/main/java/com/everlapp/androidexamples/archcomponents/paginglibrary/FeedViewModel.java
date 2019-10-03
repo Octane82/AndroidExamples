@@ -1,11 +1,11 @@
 package com.everlapp.androidexamples.archcomponents.paginglibrary;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Transformations;
-import android.arch.lifecycle.ViewModel;
-import android.arch.paging.LivePagedListBuilder;
-import android.arch.paging.PagedList;
-import android.support.annotation.NonNull;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Transformations;
+import androidx.lifecycle.ViewModel;
+import androidx.paging.LivePagedListBuilder;
+import androidx.paging.PagedList;
+import androidx.annotation.NonNull;
 
 import com.everlapp.androidexamples.archcomponents.paginglibrary.datasource.FeedDataFactory;
 import com.everlapp.androidexamples.archcomponents.paginglibrary.model.Article;
