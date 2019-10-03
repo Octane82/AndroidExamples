@@ -1,11 +1,13 @@
 package com.everlapp.androidexamples.camerax
 
 import android.Manifest
+import android.graphics.Matrix
 import androidx.lifecycle.LifecycleOwner
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.util.Rational
 import android.util.Size
+import android.view.Surface
 import android.view.ViewGroup
 import androidx.camera.core.CameraX
 import androidx.camera.core.Preview
@@ -84,7 +86,25 @@ class CameraXActivity : AppCompatActivity(), LifecycleOwner {
 
 
     private fun updateTransform() {
+        val matrix = Matrix()
 
+        // Compute the center of the view finder
+        val centerX = viewFinder.width / 2f
+        val centerY = viewFinder.height / 2f
+
+        // Correct preview output to account for display rotation
+        val rotationDegrees = when (viewFinder.display.rotation) {
+            Surface.ROTATION_0 -> 0
+            Surface.ROTATION_90 -> 90
+            Surface.ROTATION_180 -> 180
+            Surface.ROTATION_270 -> 270
+            else -> return
+        }
+
+        matrix.postRotate(-rotationDegrees.toFloat(), centerX, centerY)
+
+        // Finally, apply transformations to our texture view
+        viewFinder.setTransform(matrix)
     }
 
 }
