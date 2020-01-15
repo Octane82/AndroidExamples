@@ -16,10 +16,22 @@ import com.airbnb.epoxy.EpoxyTouchHelper
 import com.everlapp.androidexamples.R
 import com.everlapp.androidexamples.epoxy.models.Event
 import com.everlapp.androidexamples.epoxy.models.EventModel
+import com.everlapp.androidexamples.utils.RecyclerPaginationListener
 import kotlinx.android.synthetic.main.activity_epoxy_example.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import timber.log.Timber
+import kotlin.math.abs
+
 
 class EpoxyExampleActivity : AppCompatActivity(), SampleController.AdapterCallbacks {
+
+    private val listData = mutableListOf<Event>()
+
+    private var currentOffset = 0
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +40,8 @@ class EpoxyExampleActivity : AppCompatActivity(), SampleController.AdapterCallba
         //val recyclerView = findViewById<EpoxyRecyclerView>(R.id.epoxy_recycler_view)
 
         epoxy_recycler_view.setHasFixedSize(true)
-        epoxy_recycler_view.layoutManager = LinearLayoutManager(this)
+        val layoutManager = LinearLayoutManager(this)
+        epoxy_recycler_view.layoutManager = layoutManager
 
         val controller = SampleController(this)
         epoxy_recycler_view.adapter = controller.adapter
@@ -38,29 +51,73 @@ class EpoxyExampleActivity : AppCompatActivity(), SampleController.AdapterCallba
 
         //controller.requestModelBuild()
 
-        val event = Event(0, "no image", "First event", "First event description", System.currentTimeMillis())
+        //val event = Event(0, "no image", "(0) event", "(0) event description", System.currentTimeMillis())
 
-        controller.setData(mutableListOf(event,
-                event.copy(
-                id = 1L,
-                title = "Second event",
-                description = "Second event description"),
-                event.copy(
-                        id = 2L,
-                        title = "Third event",
-                        description = "Third event description"
-                ),
-                event.copy(
-                        id = 3L,
-                        title = "Fourth event",
-                        description = "Fourth event description"
-                )))
+        //listData.add(event)
+        for (i in 0..9) {
+            listData.add(
+                    Event(i.toLong(), "no image", "($i) event", "($i) event description", System.currentTimeMillis())
+            )
+        }
 
-        initDragging(epoxy_recycler_view, controller)
+        controller.setData(listData, true)
+        Timber.e("INIT List data: ${listData.size}")
+//        listData.forEach {
+//            Timber.e("::: $it")
+//        }
+
+
+        // initDragging(epoxy_recycler_view, controller)
 
         initSwiping(epoxy_recycler_view, controller)
+
+        // Удалить не больше, чем элементов на экране
+        /*GlobalScope.launch(Dispatchers.Main) {
+            delay(4 * 1000)
+            listData.removeAt(0)
+            listData.removeAt(1)
+            listData.removeAt(2)
+            listData.removeAt(3)
+            listData.removeAt(4)
+            controller.setData(listData)
+        }*/
+
+        // Example infinity Pagination with show progress item
+        epoxy_recycler_view.addOnScrollListener(object : RecyclerPaginationListener(layoutManager) {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+            }
+
+            override fun loadMoreItems() {
+                currentOffset += 10
+                Timber.d("CURRENT Offset: $currentOffset")
+
+                controller.setData(listData, true)
+                GlobalScope.launch(Dispatchers.Main) {
+                    delay(2000)
+
+                    generateNewItems(currentOffset)
+                    controller.setData(listData, false)
+                }
+
+
+                // todo Add progress model
+            }
+
+            override fun isLastPage(): Boolean = false
+
+            override fun isLoading(): Boolean = false
+        })
     }
 
+
+    fun generateNewItems(offset: Int) {
+        for (i in offset..offset + 9) {
+            listData.add(
+                    Event(i.toLong(), "no image", "($i) event", "($i) event description", System.currentTimeMillis())
+            )
+        }
+    }
 
     private fun initDragging(recyclerView: RecyclerView, controller: EpoxyController) {
         EpoxyTouchHelper.initDragging(controller)
@@ -128,17 +185,24 @@ class EpoxyExampleActivity : AppCompatActivity(), SampleController.AdapterCallba
     }
 
 
-    private fun initSwiping(recyclerView: RecyclerView, controller: EpoxyController) {
+    private fun initSwiping(recyclerView: RecyclerView, controller: SampleController) {
         EpoxyTouchHelper.initSwiping(recyclerView)
                 .leftAndRight()
                 .withTarget(EventModel::class.java)
                 .andCallbacks(object : EpoxyTouchHelper.SwipeCallbacks<EventModel>() {
+
                     override fun clearView(model: EventModel?, itemView: View?) {
-                        super.clearView(model, itemView)
+                        itemView?.setBackgroundColor(Color.WHITE)
                     }
 
                     override fun onSwipeCompleted(model: EventModel?, itemView: View?, position: Int, direction: Int) {
                         Timber.e("Swipe completed!!!")
+                        listData.removeAt(position)
+                        Timber.e("AFTER SWIPE List data: ${listData.size} CUR Pos: $position Direction: $direction")
+                        listData.forEach {
+                            Timber.e(">>> $it")
+                        }
+                        controller.setData(listData, true)
                     }
 
                     override fun isSwipeEnabledForModel(model: EventModel?): Boolean {
@@ -146,7 +210,12 @@ class EpoxyExampleActivity : AppCompatActivity(), SampleController.AdapterCallba
                     }
 
                     override fun onSwipeProgressChanged(model: EventModel?, itemView: View?, swipeProgress: Float, canvas: Canvas?) {
-                        super.onSwipeProgressChanged(model, itemView, swipeProgress, canvas)
+                        val alpha = (abs(swipeProgress) * 255).toInt()
+                        if (swipeProgress > 0) {
+                          itemView?.setBackgroundColor(Color.argb(alpha, 0, 255, 0))
+                        } else {
+                          itemView?.setBackgroundColor(Color.argb(alpha, 255, 0, 0))
+                        }
                     }
 
                     override fun onSwipeReleased(model: EventModel?, itemView: View?) {
