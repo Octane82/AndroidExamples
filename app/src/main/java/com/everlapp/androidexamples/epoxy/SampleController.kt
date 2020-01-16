@@ -35,7 +35,13 @@ class SampleController(private val callbacks: AdapterCallbacks) : Typed2EpoxyCon
             )
         }
 
-        CarouselModel_()
+        /*CarouselModel_()
+                .id("carousel")
+                .models(photoModels)
+                .addTo(this)*/
+
+        // Custom carousel model (with custom layout)
+        CustomCarouselModel_()
                 .id("carousel")
                 .models(photoModels)
                 .addTo(this)
