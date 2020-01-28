@@ -1,6 +1,5 @@
 package com.everlapp.androidexamples.coroutines
 
-import androidx.fragment.app.Fragment
 import kotlinx.coroutines.*
 import timber.log.Timber
 import kotlin.coroutines.CoroutineContext
