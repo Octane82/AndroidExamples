@@ -7,6 +7,7 @@ import com.everlapp.androidexamples.coroutines.restapi.RetrofitFactory
 import kotlinx.coroutines.*
 import retrofit2.HttpException
 import timber.log.Timber
+import kotlin.system.measureTimeMillis
 
 class ActivityCoroutineExample : AppCompatActivity() {
 
@@ -124,12 +125,167 @@ class ActivityCoroutineExample : AppCompatActivity() {
 
             delay(100L)
             println("Task from coroutine scope") // This line will be printed before the nested launch
+
+            //isActive - флаг (вутри Coroutine scope) проверки не отменена ли корутина вызовом cancelAndJoin()
         }
 
         println("Coroutine scope is over") // This line is not printed until the nested launch completes
     }
 
 
+    /**
+     * Job будет автоматически отменена через 5 секунд
+     */
+    private fun cancelJobWithTimeout() = runBlocking {
+        // Метод withTimeout выбрасывает exception при остановке
+        // есть другой метод --- val result = withTimeoutOrNull(1300L) - который отдает NULL вместо Exception
+        withTimeout(5000) {
+            repeat(1000) { i ->
+                print("Run $i ...")
+                delay(500)
+            }
+        }
+    }
+
+
+
+    // ========== Execution coroutines ===============
+
+    /**
+     * По умолчанию исполнение корутин выполняется последовательно (друг за другом)
+     * Получим ответ медленнее чем async
+     */
+    private fun sequentalyExecution() = runBlocking {
+        //sampleStart
+        val time = measureTimeMillis {
+            val one = doSomethingUsefulOne()
+            val two = doSomethingUsefulTwo()
+            println("The answer is ${one + two}")
+        }
+        println("Completed in $time ms")
+        //sampleEnd
+    }
+
+
+    /**
+     * Если нет разницы в порядке выполнения suspend методов можно вызывать асинхронное выполнение
+     * Ответ получим быстрее !!!
+     */
+    private fun asyncExecution() = runBlocking {
+        //sampleStart
+        val time = measureTimeMillis {
+            // two coroutines execute concurrently
+            val one = async { doSomethingUsefulOne() }
+            val two = async { doSomethingUsefulTwo() }
+            println("The answer is ${one.await() + two.await()}")
+        }
+        println("Completed in $time ms")
+        //sampleEnd
+    }
+
+
+    /**
+     * Ленивое исполнение корутин
+     * Запускается исполнение, когда вызван await() или если вызывается функция запуска ее задания
+     */
+    private fun lazyStartCoroutine() = runBlocking {
+        //sampleStart
+        val time = measureTimeMillis {
+            val one = async(start = CoroutineStart.LAZY) { doSomethingUsefulOne() }
+            val two = async(start = CoroutineStart.LAZY) { doSomethingUsefulTwo() }
+            // some computation
+            one.start() // start the first one
+            two.start() // start the second one
+            println("The answer is ${one.await() + two.await()}")
+        }
+        println("Completed in $time ms")
+        //sampleEnd
+    }
+
+
+
+
+    suspend fun doSomethingUsefulOne(): Int {
+        delay(1000L) // pretend we are doing something useful here
+        return 13
+    }
+
+    suspend fun doSomethingUsefulTwo(): Int {
+        delay(1000L) // pretend we are doing something useful here, too
+        return 29
+    }
+    // ============== DISPATCHERS ================================
+
+
+    private fun dispatchersExample() = runBlocking{
+        // newSingleThreadContext("myOwnThread") - создает поток для корутины
+
+    }
+
+
+    private fun childrenCoroutine() = runBlocking{
+        //sampleStart
+        // launch a coroutine to process some kind of incoming request
+        val request = launch {
+            // it spawns two other jobs, one with GlobalScope
+            // GlobalScope не отменяется, если отменяется родительская корутина
+            GlobalScope.launch {
+                println("job1: I run in GlobalScope and execute independently!")
+                delay(1000)
+                println("job1: I am not affected by cancellation of the request")
+            }
+            // and the other inherits the parent context
+            // launch{ } - оменяется, если отменяется родительская корутина
+            launch {
+                delay(100)
+                println("job2: I am a child of the request coroutine")
+                delay(1000)
+                println("job2: I will not execute this line if my parent request is cancelled")
+            }
+        }
+        delay(500)
+        request.cancel() // cancel processing of the request
+        delay(1000) // delay a second to see what happens
+        println("main: Who has survived request cancellation?")
+        //sampleEnd
+    }
+
+    /**
+     * Родительская корутина всегда ждет завершения всех своих потомков
+     */
+    private fun parentalResponsibilitiesExample() = runBlocking {
+        //sampleStart
+        // launch a coroutine to process some kind of incoming request
+        val request = launch {
+            repeat(3) { i -> // launch a few children jobs
+                launch  {
+                    delay((i + 1) * 200L) // variable delay 200ms, 400ms, 600ms
+                    println("Coroutine $i is done")
+                }
+            }
+            println("request: I'm done and I don't explicitly join my children that are still active")
+        }
+        request.join() // Ожидает завершение запроса, включая всех его детей
+        println("Now processing of the request is complete")
+        //sampleEnd
+    }
+
+
+    /**
+     * С помощью + можем комбинировать различные параметры, например Dispatcher and custom coroutine name
+     */
+    private fun combiningContextElements() = runBlocking {
+        //sampleStart
+        // CoroutineName - присваиваем свое имя корутине (test#1)
+        launch(Dispatchers.Default + CoroutineName("test")) {
+            println("I'm working in thread ${Thread.currentThread().name}")
+        }
+        //sampleEnd
+    }
+
+
+
+    // ==============================================
 
     /**
      * Sequence - реализуют генераторы, т. е. предоставляют лёгкую возможность построить ленивые последовательности:
