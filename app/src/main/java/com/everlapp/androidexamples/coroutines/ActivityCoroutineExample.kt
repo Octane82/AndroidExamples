@@ -5,10 +5,21 @@ import androidx.appcompat.app.AppCompatActivity
 import com.everlapp.androidexamples.R
 import com.everlapp.androidexamples.coroutines.restapi.RetrofitFactory
 import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.ReceiveChannel
+import kotlinx.coroutines.channels.consumeEach
+import kotlinx.coroutines.channels.produce
+import kotlinx.coroutines.flow.*
+
 import retrofit2.HttpException
 import timber.log.Timber
+import kotlin.sequences.take
+import kotlin.sequences.toList
 import kotlin.system.measureTimeMillis
 
+/**
+ * https://github.com/Kotlin/kotlinx.coroutines/blob/master/coroutines-guide.md#composing-suspending-functions
+ */
 class ActivityCoroutineExample : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -282,6 +293,114 @@ class ActivityCoroutineExample : AppCompatActivity() {
         }
         //sampleEnd
     }
+
+
+
+    // ================ Async flow  ==============================
+
+    private fun fooFlow() : Flow<Int> = flow {
+        for (i in 1..3) {
+            delay(100)
+            emit(i)
+        }
+    }
+
+    private suspend fun performRequest(request: Int): String {
+        delay(1000) // imitate long-running asynchronous work
+        return "response $request"
+    }
+
+
+    private fun flowOnOperatorExample(): Flow<Int> = flow {
+        for (i in 1..3) {
+            Thread.sleep(100) // pretend we are computing it in CPU-consuming way
+            Timber.d("Emitting $i")
+            emit(i) // emit next value
+        }
+    }.flowOn(Dispatchers.Default) // RIGHT way to change context for CPU-consuming code in flow builder
+
+
+    /**
+     * Example flow operator
+     */
+    @ExperimentalCoroutinesApi
+    private fun flowExample() = runBlocking {
+        fooFlow()
+                .onCompletion { Timber.d("Done!") }
+                // Or (completion)
+                .onCompletion { cause -> if (cause != null) println("Flow completed exceptionally") }
+                .catch { cause -> println("Caught exception") }
+                // -----
+                .collect { value -> println(value) }
+
+        (1..3).asFlow().collect { i -> println(i) }
+
+        (1..3).asFlow()
+                // Поток входящих запросов может быть сопоставлен с параметрами Request
+                // Может применяться map, даже если request длительная операция
+                .map { request -> performRequest(request) }
+                .collect { response -> println(response) }
+
+        // Transform flow
+        (1..3).asFlow() // a flow of requests
+                .transform { request ->
+                    emit("Making request $request")
+                    emit(performRequest(request))
+                }
+                .collect { response -> println(response) }
+
+        (1..10).asFlow()
+                .buffer()   // // buffer emissions, don't wait
+                .collect { i -> print(i) }
+    }
+
+
+    @ExperimentalCoroutinesApi
+    private fun composingFlows() = runBlocking {
+        val nums = (1..3).asFlow()
+        val strs = flowOf("one", "two", "three")
+
+        // Zip operator
+        nums.zip(strs) { a, b -> "$a -> $b" }.collect { println(it) }
+        // 1 -> one
+        // 2 -> two
+        // 3 -> three
+
+
+    }
+
+
+    // ================ Channel interaction coroutines ================================
+
+
+    private fun channelExample() = runBlocking {
+        val channel = Channel<Int>()
+
+        launch {
+            // this might be heavy CPU-consuming computation or async logic, we'll just send five squares
+            for (i in 0..5) channel.send(i * i)
+            // channel.close() // we're done sending
+        }
+        // here we print five received integers:
+        repeat(5) { channel.receive() }
+        println("Done!")
+
+        // coroutineContext.cancelChildren() // game over, cancel them -- if needed
+    }
+
+
+
+    fun CoroutineScope.produceSquares(): ReceiveChannel<Int> = produce {
+        for (x in 1..5) send(x * x)
+    }
+    
+    
+    private fun channelBuilder() = runBlocking {
+        val squares = produceSquares()
+        squares.consumeEach { println(it) }
+        println("Done!")
+    }
+    
 
 
 
