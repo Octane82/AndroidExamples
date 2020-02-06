@@ -19,6 +19,8 @@ import kotlin.system.measureTimeMillis
 
 /**
  * https://github.com/Kotlin/kotlinx.coroutines/blob/master/coroutines-guide.md#composing-suspending-functions
+ *
+ * https://medium.com/better-programming/kotlin-coroutines-from-basics-to-advanced-ad3eb1421006
  */
 class ActivityCoroutineExample : AppCompatActivity() {
 
@@ -142,6 +144,18 @@ class ActivityCoroutineExample : AppCompatActivity() {
 
         println("Coroutine scope is over") // This line is not printed until the nested launch completes
     }
+
+
+    private fun normalFunction() = runBlocking {
+        withContext(Dispatchers.IO) {
+            val response = suspMethod()
+        }
+    }
+
+    private suspend fun suspMethod() {
+
+    }
+
 
 
     /**
@@ -401,6 +415,25 @@ class ActivityCoroutineExample : AppCompatActivity() {
         println("Done!")
     }
     
+
+
+
+    // ============== Coroutine exception handling ================================
+
+    fun exceptionHandlerExample() = runBlocking {
+        //sampleStart
+        val handler = CoroutineExceptionHandler { _, exception ->
+            println("Caught $exception")
+        }
+        val job = GlobalScope.launch(handler) {
+            throw AssertionError()
+        }
+        val deferred = GlobalScope.async(handler) {
+            throw ArithmeticException() // Nothing will be printed, relying on user to call deferred.await()
+        }
+        joinAll(job, deferred)
+        //sampleEnd
+    }
 
 
 
