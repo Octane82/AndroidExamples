@@ -1,6 +1,7 @@
 package com.everlapp.androidexamples.coroutines
 
 import android.os.Bundle
+import androidx.annotation.WorkerThread
 import androidx.appcompat.app.AppCompatActivity
 import com.everlapp.androidexamples.R
 import com.everlapp.androidexamples.coroutines.restapi.RetrofitFactory
@@ -64,6 +65,84 @@ class ActivityCoroutineExample : AppCompatActivity() {
 
 
     /** ========================================================================================= */
+
+    /**
+     * Coroutine builders -----------------------
+     */
+
+    /**
+     * Используйте withContext без сомнений там, где он семантически подходит.
+     * Но если вам нужна параллельная загрузка, например нескольких картинок или частей данных, то async/await — ваш выбор.
+     *
+     * 1. Если несколько задач должны выполняться параллельно и конечный результат зависит от выполнения всех из них, используется async
+     * 2. Для возврата результата выполнения одной задачи используется withContext
+     *  withContext - используется когда нужен результат из вызванного метода withContext ждет результата и не блокирует основной поток
+     */
+    private fun coroutineScopeBuilderExample() = runBlocking {
+        val result = simpleFunc()
+
+        // launch - не блокирует основоной поток, но и не будет ждать результата запуска т.к. launch не является вызовом приостановки
+        launch {
+            val result = withContext(Dispatchers.IO) {
+                simpleFunc()
+            }
+
+            val resultAsync = async(Dispatchers.IO) {   // or async {}  -- default dispatcher
+                simpleFunc()
+            }.await()
+
+        }
+    }
+
+
+    // Not suspend method
+    private fun simpleFunc() : Int {
+        return 777
+    }
+
+    // Example suspend IO method
+    @WorkerThread
+    private suspend fun simpleSuspendFunc() = withContext(Dispatchers.IO){
+
+    }
+
+
+    // ----------  withContext { }  -----------------------
+    suspend fun testWithContext() {
+        var resultOne = "Hardstyle"
+        var resultTwo = "Minions"
+        Timber.d("Before")
+        resultOne = withContext(Dispatchers.IO) { function1() }
+        resultTwo = withContext(Dispatchers.IO) { function2() }
+        Timber.d("After")
+        val resultText = resultOne + resultTwo
+        Timber.d(resultText)
+    }
+    private suspend fun function1(): String {
+        delay(1000L)
+        val message = "function1"
+        return message
+    }
+    // Function 2 executes faster than 1. But `withContext` is a suspend call, so it won't go to the next line until it finished.
+    private suspend fun function2(): String {
+        delay(100L)
+        val message = "function2"
+        Timber.d(message)
+        return message
+    }
+
+    // Result
+    // withContext: Before
+    // withContext: function1
+    // withContext: function2
+    // withContext: After
+    // withContext: function1function2
+    // ---------------------------------------------------
+
+    /**
+     * -------------------------------------------
+     */
+
 
 
     private fun coroutineExample() {
