@@ -1,1 +1,1 @@
-include ':app', ':library', ':compiler', ':adapter', ':bindview-api', ':bindview-processor'
+include ':app', ':bindview-api', ':bindview-processor'

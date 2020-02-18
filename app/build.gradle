@@ -159,7 +159,7 @@ dependencies {
     kapt 'com.airbnb.android:epoxy-processor:3.9.0'
 
 
-    // Annotation processor
+    // Custom annotation processor
     compileOnly project(':bindview-api')
     kapt project(':bindview-processor')
 }
