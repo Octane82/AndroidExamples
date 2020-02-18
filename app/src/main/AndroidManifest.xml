@@ -25,12 +25,14 @@
 
         <activity android:name=".MainActivity"/>
 
-        <activity android:name=".epoxy.EpoxyExampleActivity">
+        <activity android:name=".codegeneration.CodeGenerationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".epoxy.EpoxyExampleActivity"/>
 
         <activity android:name=".camerax.CameraXActivity"/>
 

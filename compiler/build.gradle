@@ -1,0 +1,21 @@
+/*apply plugin: 'java-library'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+}
+
+sourceCompatibility = "7"
+targetCompatibility = "7"*/
+
+apply plugin: 'java'
+apply plugin: 'maven'
+
+group = 'com.everlapp.codegeneration'
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile project(':library')
+    compile project(':adapter')
+    compile 'com.squareup:javapoet:1.7.0'
+    compile 'com.google.guava:guava:19.0'
+}
