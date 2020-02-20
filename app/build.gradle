@@ -158,6 +158,11 @@ dependencies {
     // Add the annotation processor if you are using Epoxy's annotations (recommended)
     kapt 'com.airbnb.android:epoxy-processor:3.9.0'
 
+    // Exoplayer
+    implementation 'com.google.android.exoplayer:exoplayer-core:2.10.5'
+    implementation 'com.google.android.exoplayer:exoplayer-dash:2.10.5'
+    implementation 'com.google.android.exoplayer:exoplayer-ui:2.10.5'
+
 
     // Custom annotation processor
     compileOnly project(':bindview-api')
