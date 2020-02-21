@@ -7,17 +7,25 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.everlapp.androidexamples.R
+import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.ExoPlayerFactory
+import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
+import com.google.android.exoplayer2.source.ConcatenatingMediaSource
 import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import kotlinx.android.synthetic.main.activity_exoplayer.*
+import timber.log.Timber
 
 
+/**
+ * https://codelabs.developers.google.com/codelabs/exoplayer-intro/#0
+ */
 class MainExoplayerActivity : AppCompatActivity() {
 
     var player: SimpleExoPlayer? = null
+    private lateinit var playbackStateListener: PlaybackStateListener
 
     private var playWhenReady = true
     private var currentWindow = 0
@@ -28,6 +36,7 @@ class MainExoplayerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_exoplayer)
+        playbackStateListener = PlaybackStateListener()
     }
 
 
@@ -68,12 +77,21 @@ class MainExoplayerActivity : AppCompatActivity() {
         player = ExoPlayerFactory.newSimpleInstance(this)
         video_view.player = player
 
-        val uri = Uri.parse("https://storage.googleapis.com/exoplayer-test-media-0/play.mp3")
-        val mediaSource = buildMediaSource(uri)
+        // https://storage.googleapis.com/exoplayer-test-media-0/play.mp3
+        val uri = Uri.parse(getString(R.string.media_url_mp4))
+        val mediaSource1 = buildMediaSource(uri)
+
+        val uri2 = Uri.parse(getString(R.string.media_url_mp3))
+        val mediaSource2 = buildMediaSource(uri2)
+
+        // Concatenate media source
+        val playlist = ConcatenatingMediaSource(mediaSource1, mediaSource2)
 
         player?.playWhenReady = playWhenReady
         player?.seekTo(currentWindow, playbackPosition)
-        player?.prepare(mediaSource, false, false)
+
+        player?.addListener(playbackStateListener)
+        player?.prepare(playlist, false, false)
     }
 
 
@@ -101,10 +119,28 @@ class MainExoplayerActivity : AppCompatActivity() {
             playWhenReady = player!!.playWhenReady
             playbackPosition = player!!.currentPosition
             currentWindow = player!!.currentWindowIndex
-            player!!.release()
+            player?.removeListener(playbackStateListener)
+            player?.release()
             player = null
         }
     }
+
+
+    private inner class PlaybackStateListener : Player.EventListener {
+
+        override fun onPlayerStateChanged(playWhenReady: Boolean,
+                                          playbackState: Int) {
+            val stateString: String = when (playbackState) {
+                ExoPlayer.STATE_IDLE -> "ExoPlayer.STATE_IDLE      -"
+                ExoPlayer.STATE_BUFFERING -> "ExoPlayer.STATE_BUFFERING -"
+                ExoPlayer.STATE_READY -> "ExoPlayer.STATE_READY     -"
+                ExoPlayer.STATE_ENDED -> "ExoPlayer.STATE_ENDED     -"
+                else -> "UNKNOWN_STATE             -"
+            }
+            Timber.d("changed state to $stateString playWhenReady:$playWhenReady")
+        }
+    }
+
 
 
 }
