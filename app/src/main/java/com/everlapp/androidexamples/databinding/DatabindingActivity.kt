@@ -9,6 +9,7 @@ import com.everlapp.androidexamples.R
 /**
  * https://codelabs.developers.google.com/codelabs/android-databinding/#0
  *
+ * https://github.com/android/databinding-samples/tree/master/TwoWaySample
  */
 class DatabindingActivity : AppCompatActivity() {
 
@@ -30,7 +31,7 @@ class DatabindingActivity : AppCompatActivity() {
         // or
         // val listItemBinding = DataBindingUtil.inflate(layoutInflater, R.layout.list_item, viewGroup, false)
 
-        binding.user = User("Vasya", "Pupkin", 32)
+        binding.user = User("Vasya", "Pupkin", 28)
         //binding.observableField.set("First value")
 
         /*GlobalScope.launch(Dispatchers.Main) {

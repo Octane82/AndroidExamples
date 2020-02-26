@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable name="user" type="com.everlapp.androidexamples.databinding.User"/>
         <import type="android.view.View"/>
@@ -20,8 +21,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="@{user.age > 18 ? View.VISIBLE : View.GONE}"
-            android:text="@{String.valueOf(user.age)}"/>
+            app:hideIsNotAdult="@{user.age}"
+            android:text="@{`Age:` + String.valueOf(user.age)}"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -30,19 +31,65 @@
             android:text="Click me"
             android:onClick="@{viewmodel::onClickText}"/>
 
-        <Button
+        <!-- Like counter -->
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:text="@{Integer.toString(viewmodel.likes)}"/>
+
+        <ProgressBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="50dp"
+            style="?android:attr/progressBarStyleHorizontal"
+            app:hideIfZero="@{viewmodel.likes}"
+            app:progressScaled="@{viewmodel.likes}"
+            android:max="@{100}"
+            android:progress="@{viewmodel.likes}"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Like"
+            android:onClick="@{() -> viewmodel.onLike()}"/>
+
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
             android:text="Show user"
             android:onClick="@{() -> viewmodel.onShowUser(user)}"/>
 
-        <!--<CheckBox
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="#3F51B5" />
+
+        <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Choose CB"
-            android:onClick="@{(isChecked) -> viewmodel.onCheckboxChanged(user, isChecked)}" />-->
+            android:hint="Enter text"
+            android:text="@={viewmodel.testInputText}"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="Out..."
+            android:text="@{viewmodel.testInputText}" />
+
+       <!-- <CheckBox
+            android:id="@+id/cb_remember_me"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Remember me" />-->
 
 
     </LinearLayout>
