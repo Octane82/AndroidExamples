@@ -15,17 +15,25 @@ import com.google.android.exoplayer2.source.ConcatenatingMediaSource
 import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_exoplayer.*
 import timber.log.Timber
+import java.util.concurrent.TimeUnit
 
 
 /**
  * https://codelabs.developers.google.com/codelabs/exoplayer-intro/#0
+ *
+ * https://exoplayer.dev/
  */
 class MainExoplayerActivity : AppCompatActivity() {
 
     var player: SimpleExoPlayer? = null
     private lateinit var playbackStateListener: PlaybackStateListener
+
+    private val disposables = CompositeDisposable()
 
     private var playWhenReady = true
     private var currentWindow = 0
@@ -70,6 +78,8 @@ class MainExoplayerActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= 24) {
             releasePlayer()
         }
+
+        disposables.dispose()
     }
 
 
@@ -92,6 +102,17 @@ class MainExoplayerActivity : AppCompatActivity() {
 
         player?.addListener(playbackStateListener)
         player?.prepare(playlist, false, false)
+
+        // player?.duration
+
+        disposables.add(
+                Observable.interval(2, TimeUnit.SECONDS)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .map { i -> player?.currentPosition }       // microseconds
+                        .subscribe({ curPos ->
+                            Timber.e("Current playback Position: $curPos")
+                        }, {Timber.e(it)})
+        )
     }
 
 
