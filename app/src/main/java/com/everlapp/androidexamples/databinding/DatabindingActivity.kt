@@ -5,6 +5,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import com.everlapp.androidexamples.R
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 /**
  * https://codelabs.developers.google.com/codelabs/android-databinding/#0
@@ -31,13 +35,13 @@ class DatabindingActivity : AppCompatActivity() {
         // or
         // val listItemBinding = DataBindingUtil.inflate(layoutInflater, R.layout.list_item, viewGroup, false)
 
-        binding.user = User("Vasya", "Pupkin", 28)
-        //binding.observableField.set("First value")
+        val user = User("Petya", "Ivanov", 21)
+        binding.user = user
 
-        /*GlobalScope.launch(Dispatchers.Main) {
-            delay(3000)
-            binding.user.observableField.set("Changed first value")
-        }*/
+        GlobalScope.launch(Dispatchers.Main) {
+            delay(5000)
+            user.observableField.set("Changed first value")
+        }
     }
 
 

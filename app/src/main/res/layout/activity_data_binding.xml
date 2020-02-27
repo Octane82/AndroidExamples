@@ -23,11 +23,21 @@
             android:layout_height="wrap_content"
             app:hideIsNotAdult="@{user.age}"
             android:text="@{`Age:` + String.valueOf(user.age)}"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{user.observableField}"/>
+
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="24dp"
+            android:text="@{viewmodel.user2.observableName}"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:text="Click me"
             android:onClick="@{viewmodel::onClickText}"/>
 
@@ -74,15 +84,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:hint="Enter text"
-            android:text="@={viewmodel.testInputText}"/>
+            android:hint="Login"
+            android:text="@={viewmodel.login}"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:hint="Out..."
-            android:text="@{viewmodel.testInputText}" />
+            android:hint="Out(Login)..."
+            android:text="@{viewmodel.login}" />
 
        <!-- <CheckBox
             android:id="@+id/cb_remember_me"

@@ -1,25 +1,36 @@
 package com.everlapp.androidexamples.databinding
 
 import android.view.View
+import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
+import androidx.databinding.ObservableField
+import androidx.databinding.ObservableInt
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
+import com.everlapp.androidexamples.BR
 import timber.log.Timber
 
-class DatabindingViewModel : ObservableViewModel() {
+class DatabindingViewModel :  ObservableViewModel() {
 
-    //val testInputText = MutableLiveData<String>()
+    val testInputText = MutableLiveData<String>()
+    val user2 = ObservableField<User>()
 
-    var testInputText: String
+    init {
+        // Init observable Object
+        user2.set(User("Ola", "Holopainen", 42))
+    }
+
+
+    var login: String = ""
         @Bindable get() {
-            return testInputText
+            return field
         }
         set(value) {
-            /*if (testInputText != value) {
-                testInputText = value
-            }*/
-            //notifyPropertyChanged(BR.)
+            if (field != value) {
+                field = value
+                notifyPropertyChanged(BR.login  )
+            }
         }
 
 
@@ -51,14 +62,10 @@ class DatabindingViewModel : ObservableViewModel() {
         }
     }
 
-    /*@Bindable
-    fun getTestInputTextO() : String {
-        return testInputText
-    }*/
-
 
     fun onClickText(view: View) {
         Timber.d("On click Text")
+        user2.get()?.observableName?.set("Changed name !!!")
     }
 
     /**
