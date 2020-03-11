@@ -69,5 +69,8 @@
     <dimen name="image_like_width">55dp</dimen>
     <dimen name="image_like_height">14dp</dimen>
 
+    <dimen name="square_size_normal">100dp</dimen>
+    <dimen name="square_size_expand">170dp</dimen>
+
 
 </resources>

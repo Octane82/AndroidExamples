@@ -10,27 +10,91 @@ import android.view.animation.LinearInterpolator
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.transition.*
 import com.everlapp.androidexamples.R
 import kotlinx.android.synthetic.main.activity_animation_property.*
+import kotlinx.android.synthetic.main.activity_animation_transition_one.*
+import kotlinx.android.synthetic.main.activity_animation_transition_two.*
 
 /**
+ * https://developer.android.com/training/animation
+ *
  * https://codelabs.developers.google.com/codelabs/advanced-android-kotlin-training-property-animation/#0
  * https://codelabs.developers.google.com/codelabs/motion-layout/#2
+ *
+ * - Object animator
+ * - Transition framework  (Scene)
+ * - Activity animations ( ActivityOptions.makeSceneTransitionAnimation() )
  */
 class AnimationsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // setContentView(R.layout.activity_constraint_layout)
-        setContentView(R.layout.activity_animation_property)
 
-        btnRotate.setOnClickListener { rotater() }
-        btnTranslate.setOnClickListener { translater() }
-        btnScale.setOnClickListener { scaler() }
-        btnFading.setOnClickListener { fader() }
-        btnColorize.setOnClickListener { colorizer() }
-        btnShower.setOnClickListener { shower() }
+        // 0 - object animator
+        // 1- transition framework
+        val animationMode = 2
+
+        when (animationMode) {
+            0 -> {
+                // Object animator
+                setContentView(R.layout.activity_animation_property)
+                btnRotate.setOnClickListener { rotater() }
+                btnTranslate.setOnClickListener { translater() }
+                btnScale.setOnClickListener { scaler() }
+                btnFading.setOnClickListener { fader() }
+                btnColorize.setOnClickListener { colorizer() }
+                btnShower.setOnClickListener { shower() }
+            }
+            1 -> {
+                // Transition framework
+                setContentView(R.layout.activity_animation_transition_one)
+                btnAnimate.setOnClickListener { transitionOne() }
+            }
+            2 -> {
+                setContentView(R.layout.activity_animation_transition_two)
+                btn_change_scene.setOnClickListener { transitionTwo() }
+            }
+        }
     }
+
+    // ---------- Transition framework ----------------
+
+    private fun transitionOne() {
+        // вызываем метод, говорящий о том, что мы хотим анимировать следующие изменения внутри sceneRoot
+        TransitionManager.beginDelayedTransition(container)
+
+        val params = transition_square.layoutParams
+        val newSquareSize = resources.getDimensionPixelSize(R.dimen.square_size_expand)
+        params.width = newSquareSize
+        params.height = newSquareSize
+        transition_square.layoutParams = params
+
+        // Transition type
+        // - Change bounds
+        // - Fade
+        // - Transition set
+        // - Auto transition
+    }
+
+
+    private fun transitionTwo() {
+        val scene2 = Scene.getSceneForLayout(scene_root, R.layout.animation_scene2, this)
+        // опишем свой аналог AutoTransition
+        val set = TransitionSet()
+        set.addTransition(Fade())
+        set.addTransition(ChangeBounds())
+        // выполняться они будут одновременно
+        set.ordering = TransitionSet.ORDERING_TOGETHER
+        // уставим свою длительность анимации
+        set.duration = 500
+        // и изменим Interpolator
+        set.interpolator = AccelerateInterpolator()
+        TransitionManager.go(scene2, set)
+    }
+
+
 
 
     // ------ Animation property ---------
