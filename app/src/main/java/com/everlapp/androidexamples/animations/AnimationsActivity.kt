@@ -22,9 +22,15 @@ import kotlinx.android.synthetic.main.activity_animation_transition_two.*
  * https://codelabs.developers.google.com/codelabs/advanced-android-kotlin-training-property-animation/#0
  * https://codelabs.developers.google.com/codelabs/motion-layout/#2
  *
+ * https://www.raywenderlich.com/1376936-android-transition-framework-getting-started
+ *
  * - Object animator
  * - Transition framework  (Scene)
  * - Activity animations ( ActivityOptions.makeSceneTransitionAnimation() )
+ *
+ * Fragment transition
+ * - https://medium.com/@bherbst/fragment-transitions-with-shared-elements-7c7d71d31cbb
+ * - https://medium.com/bynder-tech/how-to-use-material-transitions-in-fragment-transactions-5a62b9d0b26b
  */
 class AnimationsActivity : AppCompatActivity() {
 
@@ -34,7 +40,7 @@ class AnimationsActivity : AppCompatActivity() {
 
         // 0 - object animator
         // 1- transition framework
-        val animationMode = 2
+        val animationMode = 3
 
         when (animationMode) {
             0 -> {
@@ -56,8 +62,23 @@ class AnimationsActivity : AppCompatActivity() {
                 setContentView(R.layout.activity_animation_transition_two)
                 btn_change_scene.setOnClickListener { transitionTwo() }
             }
+            3 -> {
+                setContentView(R.layout.activity_animation_fragment_transitions)
+                if (savedInstanceState == null) {
+                    supportFragmentManager.beginTransaction()
+                            .add(R.id.fragment_container, GridFragment())
+                            .commit()
+                }
+            }
         }
     }
+
+
+    // ---------- Fragment transition with shared elements ------
+
+
+
+
 
     // ---------- Transition framework ----------------
 
