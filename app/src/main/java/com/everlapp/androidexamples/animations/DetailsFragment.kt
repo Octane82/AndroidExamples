@@ -2,10 +2,7 @@ package com.everlapp.androidexamples.animations
 
 //import android.view.MotionEvent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import com.everlapp.androidexamples.R
 import kotlinx.android.synthetic.main.fragment_animation_fragment_details.*
@@ -43,10 +40,76 @@ class DetailsFragment : Fragment() {
         // TODO: https://developer.android.com/training/gestures/scale 
         // TODO: Touch gestures - https://developer.android.com/training/gestures
 
-        var intArr = intArrayOf(0, 0)
+        /*var intArr = intArrayOf(0, 0)
         view.getLocationInWindow(intArr)
-        Timber.e("INT Array: X:${intArr[0]} Y:${intArr[1]}")
+        Timber.e("INT Array: X:${intArr[0]} Y:${intArr[1]}")*/
 
+        // imageMoveListener()
+
+        gestureDetector()
+    }
+
+
+    // https://github.com/nikhilpanju/FabFilter
+    // TODO: https://proandroiddev.com/complex-ui-animations-on-android-featuring-motionlayout-aa82d83b8660    --- with MotionLayout
+    // todo: https://proandroiddev.com/complex-ui-animation-on-android-8f7a46f4aec4   --- Отличная статья про анимации
+    private fun animationsExam() {
+        // image.doOnLayout { view -> }
+    }
+
+
+    private fun gestureDetector() {
+        val gestureDetector = GestureDetector(activity, object: GestureDetector.OnGestureListener {
+
+            override fun onShowPress(e: MotionEvent?) {
+                Timber.e("onShowPress - Gesture")
+            }
+
+            override fun onSingleTapUp(e: MotionEvent?): Boolean {
+                Timber.e("onSingleTap - Gesture")
+                return true
+            }
+
+            override fun onDown(e: MotionEvent?): Boolean {
+                Timber.e("onDown - Gesture")
+                return true
+            }
+
+            override fun onFling(e1: MotionEvent?, e2: MotionEvent?, velocityX: Float, velocityY: Float): Boolean {
+                Timber.e("onFling - Gesture")
+                return true
+            }
+
+            override fun onScroll(e1: MotionEvent?, e2: MotionEvent?, distanceX: Float, distanceY: Float): Boolean {
+                Timber.e("onScroll - Gesture")
+                return true
+            }
+
+            override fun onLongPress(e: MotionEvent?) {
+                Timber.e("onLong press - Gesture")
+            }
+        })
+
+        // ScaleGestureDetector()
+
+        val gestureDetectorSimple = GestureDetector(activity, object : GestureDetector.SimpleOnGestureListener(){
+            override fun onDoubleTap(e: MotionEvent?): Boolean {
+                Timber.e("Double tap VIEW")
+                return super.onDoubleTap(e)
+            }
+        })
+
+
+        image.setOnTouchListener { v, event ->
+            // gestureDetector.onTouchEvent(event)
+            gestureDetectorSimple.onTouchEvent(event)
+            true
+        }
+    }
+
+
+
+    private fun imageMoveListener() {
         // https://stackoverflow.com/questions/9398057/android-move-a-view-on-touch-move-action-move
         image.setOnTouchListener { view, event ->
             when (event.action) {
@@ -86,5 +149,6 @@ class DetailsFragment : Fragment() {
             true
         }
     }
+
 
 }
